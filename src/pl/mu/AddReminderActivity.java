@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AddReminderActivity extends Activity implements OnClickListener{
 	private EditText titleEt;
@@ -73,8 +74,9 @@ public class AddReminderActivity extends Activity implements OnClickListener{
         try {
 			dao = databaseHelper.getReminderDao();
 			dao.create(prepareReminderObject());
+			makeToast("data were saved");
         } catch (SQLException e) {
-			// TODO: throw dialog
+        	makeToast("problem saving data");
 		}
 	}
 
@@ -96,6 +98,10 @@ public class AddReminderActivity extends Activity implements OnClickListener{
 		c.set(year, month, day, hour, minute);
 		
 		return f.format(c.getTime());
+	}
+	
+	private void makeToast(String message) {
+		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 	}
 	
 	private void initUIElements() {
