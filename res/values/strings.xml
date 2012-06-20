@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, LocationReminderActivity!</string>
+    <string name="app_name">LocationReminder</string>
+    <string name="button_add_reminder">Add reminder</string>
+    <string name="button_add">Add</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="add_reminder_title">Title</string>
+    <string name="add_reminder_description">Description</string>
+    <string name="add_reminder_end_date">Select end date</string>
+    <string name="add_reminder_location">Choose location</string>
+    <string name="add_reminder_lat">latitude</string>
+    <string name="add_reminder_lon">longnitude</string>
+    
+</resources>
