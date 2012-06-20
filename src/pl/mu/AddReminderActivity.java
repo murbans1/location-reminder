@@ -1,11 +1,22 @@
 package pl.mu;
 
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import pl.mu.DB.DatabaseHelper;
+import pl.mu.data.ReminderObject;
+
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -14,23 +25,13 @@ public class AddReminderActivity extends Activity implements OnClickListener{
 	private EditText descriptionEt;
 	private TextView latTv;
 	private TextView lonTv;
+	private DatePicker endDateDp;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_reminder);
-		
-		titleEt = (EditText)findViewById(R.id.editText_title); 
-	    descriptionEt = (EditText)findViewById(R.id.editText_description);
-		latTv = (TextView)findViewById(R.id.add_reminder_lat);
-		lonTv = (TextView)findViewById(R.id.add_reminder_lon);
-		
-		Button chooseLocationBtn = (Button)findViewById(R.id.button_choose_location);
-		chooseLocationBtn.setOnClickListener(this);
-		Button confirmBtn = (Button)findViewById(R.id.button_add_reminder_confirm);
-		confirmBtn.setOnClickListener(this);
-		Button cancelBtn = (Button)findViewById(R.id.button_add_reminder_cancel);
-		cancelBtn.setOnClickListener(this);
+		initUIElements();
 	}
 
 	@Override
@@ -39,10 +40,12 @@ public class AddReminderActivity extends Activity implements OnClickListener{
 
 		case R.id.button_choose_location:
 			Intent intent = new Intent(getApplicationContext(), LocationSelectionActivity.class);
-			//startActivityForResult(intent, 007);
-			startActivity(intent);
+			startActivityForResult(intent, 007);
 			break;
 		case R.id.button_add_reminder_confirm:
+			if(inputedDataCorrect()) {
+				saveReminderObject();
+			}
 			break;
 		case R.id.button_add_reminder_cancel:
 			break;
@@ -53,9 +56,61 @@ public class AddReminderActivity extends Activity implements OnClickListener{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == 007){
-             String result = (String) data.getExtras().get("result");
-             latTv.setText("");
-             lonTv.setText("");
+             latTv.setText((String) data.getExtras().get("lat"));
+             lonTv.setText((String) data.getExtras().get("lon"));
         }
     }
+	
+	private boolean inputedDataCorrect() {
+		// TODO: implement
+		return true;
+	}
+	
+	private void saveReminderObject() {
+		DatabaseHelper databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
+        Dao<ReminderObject, String> dao = null;
+        
+        try {
+			dao = databaseHelper.getReminderDao();
+			dao.create(prepareReminderObject());
+        } catch (SQLException e) {
+			// TODO: throw dialog
+		}
+	}
+
+	private ReminderObject prepareReminderObject() {
+		ReminderObject reminderObject = new ReminderObject(-1, titleEt.getText().toString(), datePickerToLong(endDateDp), latTv.getText().toString(), lonTv.getText().toString(), descriptionEt.getText().toString());
+		return reminderObject;
+	}
+	
+	private String datePickerToLong(DatePicker dp) {
+		SimpleDateFormat f = new SimpleDateFormat("yyyyMMddHHmmss");
+
+		int year = dp.getYear();
+		int month = dp.getMonth();
+		int day = dp.getDayOfMonth();
+		int hour = 0;
+		int minute = 0;
+
+		final Calendar c = Calendar.getInstance();
+		c.set(year, month, day, hour, minute);
+		
+		return f.format(c.getTime());
+	}
+	
+	private void initUIElements() {
+		titleEt = (EditText) findViewById(R.id.editText_title); 
+	    descriptionEt = (EditText) findViewById(R.id.editText_description);
+		latTv = (TextView) findViewById(R.id.add_reminder_lat);
+		lonTv = (TextView) findViewById(R.id.add_reminder_lon);
+		endDateDp = (DatePicker) findViewById(R.id.datePicker);
+		
+		Button chooseLocationBtn = (Button)findViewById(R.id.button_choose_location);
+		chooseLocationBtn.setOnClickListener(this);
+		Button confirmBtn = (Button)findViewById(R.id.button_add_reminder_confirm);
+		confirmBtn.setOnClickListener(this);
+		Button cancelBtn = (Button)findViewById(R.id.button_add_reminder_cancel);
+		cancelBtn.setOnClickListener(this);
+	}
+	
 }

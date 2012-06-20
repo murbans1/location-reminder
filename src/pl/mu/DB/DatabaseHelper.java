@@ -26,14 +26,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
  
-	public Dao<ReminderObject, String> getTariffPlanDao() throws SQLException {
+	public Dao<ReminderObject, String> getReminderDao() throws SQLException {
 		if (reminderDao == null) {
 			reminderDao = getDao(ReminderObject.class);
 		}
 		return reminderDao;
 	}
  
-	public RuntimeExceptionDao<ReminderObject, String> getTariffPlanDataDao() {
+	public RuntimeExceptionDao<ReminderObject, String> getReminderDataDao() {
 		if (reminderRuntimeDao == null) {
 			reminderRuntimeDao = getRuntimeExceptionDao(ReminderObject.class);
 		}

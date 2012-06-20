@@ -41,8 +41,8 @@ public class LocationSelectionActivity extends MapActivity{
 	
 	public void sendResult(double lat, double lon){
 		Intent intent = new Intent();
-		intent.putExtra("lat", Double.valueOf(lat));
-		intent.putExtra("lon", Double.valueOf(lon)); 
+		intent.putExtra("lat", lat);
+		intent.putExtra("lon", lon); 
 		setResult(007,intent);
 	}
 	
