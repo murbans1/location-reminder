@@ -26,21 +26,22 @@ public class ReminderArrayAdapter extends ArrayAdapter<ReminderObject> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 		ViewHolder viewHolder = null;
-
+				
 		if(rowView == null){
+			Log.d("Adapter", "rowView == null");
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
 			
-			Log.d("ReminderArrayAdapter", "convertView null");
 			rowView = inflater.inflate(R.layout.list_item, null);
 			
 			viewHolder = new ViewHolder();
-		    viewHolder.title = (TextView) rowView.findViewById(R.id.textView_title);
-			viewHolder.description =(TextView) rowView.findViewById(R.id.textView_description);
+			viewHolder = new ViewHolder();
+		    viewHolder.title = (TextView) rowView.findViewById(R.id.textview_item_title);
+			viewHolder.description =(TextView) rowView.findViewById(R.id.textview_item_description);
 		   
-		    convertView.setTag(viewHolder);
+			rowView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) rowView.getTag();
-		} 
+		}
 		
 		viewHolder.title.setText(data.get(position).title);
 		viewHolder.description.setText(data.get(position).description);
@@ -49,7 +50,7 @@ public class ReminderArrayAdapter extends ArrayAdapter<ReminderObject> {
 	}
 	
 	static class ViewHolder{
-		TextView title;
-		TextView description;
+		public TextView title;
+		public TextView description;
 	}
 }
