@@ -41,9 +41,15 @@ public class LocationSelectionActivity extends MapActivity{
 	
 	public void sendResult(double lat, double lon){
 		Intent intent = new Intent();
-		intent.putExtra("lat", lat);
-		intent.putExtra("lon", lon); 
-		setResult(007,intent);
+		intent.putExtra("lat", String.valueOf(lat));
+		intent.putExtra("lon", String.valueOf(lon)); 
+		
+		if (getParent() == null) {
+            setResult(007, intent);
+        } else {
+            getParent().setResult(007, intent);
+        }
+        finish();
 	}
 	
 	public class LocationMapOverlay extends Overlay{

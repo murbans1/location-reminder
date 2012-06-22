@@ -38,4 +38,11 @@ public class ReminderObject {
 		this.lon = "";
 		this.description = "";
 	}
+
+	@Override
+	public String toString() {
+		return "ReminderObject [id=" + id + ", title=" + title
+				+ ", endDateTimestamp=" + endDateTimestamp + ", lat=" + lat
+				+ ", lon=" + lon + ", description=" + description + "]";
+	}
 }
