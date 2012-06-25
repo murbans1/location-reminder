@@ -53,7 +53,7 @@
         	android:layout_alignParentTop="true"
         	android:layout_alignParentRight="true"
         	android:layout_marginRight="6dip"
-        	android:text="Choose location"/>
+        	android:text="@string/add_reminder_choose_location"/>
 
     	<TextView
     	    android:id="@+id/add_reminder_lat"

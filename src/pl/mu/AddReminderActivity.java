@@ -6,6 +6,7 @@ import java.util.Calendar;
 
 import pl.mu.DB.DatabaseHelper;
 import pl.mu.data.ReminderObject;
+import pl.mu.service.ProximityAlertService;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
@@ -45,10 +46,13 @@ public class AddReminderActivity extends Activity implements OnClickListener{
 			break;
 		case R.id.button_add_reminder_confirm:
 			if(inputedDataCorrect()) {
-				saveReminderObject();
+				if(saveReminderObject())
+					startService(new Intent(AddReminderActivity.this, ProximityAlertService.class));
 			}
+			clearInputedData();
 			break;
 		case R.id.button_add_reminder_cancel:
+			clearInputedData();
 			break;
 		}
 	}
@@ -63,11 +67,21 @@ public class AddReminderActivity extends Activity implements OnClickListener{
     }
 	
 	private boolean inputedDataCorrect() {
-		// TODO: implement
-		return true;
+		if(titleEt.length() > 0 && latTv.length() > 0 && lonTv.length() > 0) 
+			return true;
+	    makeToast("Invalid data");
+	    return false;
 	}
 	
-	private void saveReminderObject() {
+	private void clearInputedData() {
+		titleEt.setText("");
+		descriptionEt.setText("");
+		latTv.setText("");
+		lonTv.setText("");
+		// TODO: endDateDp clear
+	}
+	
+	private boolean saveReminderObject() {
 		DatabaseHelper databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
         Dao<ReminderObject, String> dao = null;
         
@@ -75,8 +89,10 @@ public class AddReminderActivity extends Activity implements OnClickListener{
 			dao = databaseHelper.getReminderDao();
 			dao.create(prepareReminderObject());
 			makeToast("data were saved");
+			return true;
         } catch (SQLException e) {
         	makeToast("problem saving data");
+        	return false;
 		}
 	}
 

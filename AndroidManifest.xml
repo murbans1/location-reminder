@@ -8,17 +8,20 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <uses-library android:name="com.google.android.maps" />
-        <activity android:name=".LocationReminderActivity" android:label="@string/app_name" >
+        <activity android:name=".LocationReminderActivity" android:label="@string/app_name" android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddReminderActivity"/>
-        <activity android:name=".LocationSelectionActivity"/>
+        <activity android:name=".AddReminderActivity" android:screenOrientation="portrait" />
+        <activity android:name=".LocationSelectionActivity" android:screenOrientation="portrait" />
+        
+        <service android:name=".service.ProximityAlertService" />
     </application>
  
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />    
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 </manifest>

@@ -38,6 +38,14 @@ public class ReminderObject {
 		this.lon = "";
 		this.description = "";
 	}
+	
+	public double getLatDouble(){
+		return Double.valueOf(this.lat);
+	}
+	
+	public double getLonDouble(){
+		return Double.valueOf(this.lon);
+	}
 
 	@Override
 	public String toString() {

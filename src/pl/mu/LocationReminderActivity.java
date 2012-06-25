@@ -15,13 +15,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import pl.mu.DB.DatabaseHelper;
 import pl.mu.adapter.ReminderArrayAdapter;
 import pl.mu.data.ReminderObject;
+import pl.mu.service.ProximityAlertService;
 
-public class LocationReminderActivity extends Activity implements OnClickListener{
+public class LocationReminderActivity extends Activity implements OnClickListener {
+	private String TAG = getClass().getSimpleName();
     private List<ReminderObject> reminderList;
+    private ReminderArrayAdapter reminderArrayAdapter;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,11 +40,21 @@ public class LocationReminderActivity extends Activity implements OnClickListene
         
         Log.d("LocationReminderActivity", String.valueOf(reminderList.size()));
         
-        ReminderArrayAdapter reminderArrayAdapter = new ReminderArrayAdapter(getApplicationContext(), reminderList);
+        reminderArrayAdapter = new ReminderArrayAdapter(getApplicationContext(), reminderList);
         
         ListView listView = (ListView)findViewById(R.id.listview_reminders);
         listView.setAdapter(reminderArrayAdapter);
+        
+        if(reminderList.size() > 0)
+        	startService(new Intent(LocationReminderActivity.this, ProximityAlertService.class));
     }
+    
+    @Override
+	protected void onResume() {
+		loadReminderObjectList();
+    	reminderArrayAdapter.notifyDataSetChanged();
+		super.onResume();
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -56,13 +70,25 @@ public class LocationReminderActivity extends Activity implements OnClickListene
 	private void loadReminderObjectList() {
 		DatabaseHelper databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
         Dao<ReminderObject, String> dao = null;
+        List<ReminderObject> tempList = new ArrayList<ReminderObject>();
+        
+        reminderList.clear();
         
         try {
 			dao = databaseHelper.getReminderDao();
-			reminderList = dao.queryForAll();
-//			makeToast("data were saved");
+			tempList = dao.queryForAll();
+			
+			for(int i = 0; i < tempList.size(); i++) {
+				reminderList.add(tempList.get(i));
+			}
+			
+			Log.d(TAG, "list length " + reminderList.size());
         } catch (SQLException e) {
-//        	makeToast("problem saving data");
+        	makeToast("problem saving data");
 		}
+	}
+	
+	private void makeToast(String message) {
+		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 	}
 }

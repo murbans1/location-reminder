@@ -10,7 +10,8 @@
     <string name="add_reminder_description">Description</string>
     <string name="add_reminder_end_date">Select end date</string>
     <string name="add_reminder_location">Choose location</string>
-    <string name="add_reminder_lat">latitude</string>
-    <string name="add_reminder_lon">longnitude</string>
+    <string name="add_reminder_lat"></string>
+    <string name="add_reminder_lon"></string>
+    <string name="add_reminder_choose_location">Choose location</string>
     
 </resources>
