@@ -17,9 +17,11 @@ public class ReminderObject {
 	public String lon;
 	@DatabaseField
 	public String description;
+	@DatabaseField
+	public int reminderAdded;
 	
 	public ReminderObject(long id, String title, String endDateTimestamp,
-			String lat, String lon, String description) {
+			String lat, String lon, String description, int reminderAdded) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -27,6 +29,7 @@ public class ReminderObject {
 		this.lat = lat;
 		this.lon = lon;
 		this.description = description;
+		this.reminderAdded = reminderAdded;
 	}
 	
 	public ReminderObject() {
@@ -37,6 +40,7 @@ public class ReminderObject {
 		this.lat = "";
 		this.lon = "";
 		this.description = "";
+		this.reminderAdded = 0;
 	}
 	
 	public double getLatDouble(){
@@ -47,6 +51,14 @@ public class ReminderObject {
 		return Double.valueOf(this.lon);
 	}
 
+	public int checkIfAdded(){
+		return this.reminderAdded;
+	}
+	
+	public void markAdded(int i) {
+		this.reminderAdded = i;	
+	}
+	
 	@Override
 	public String toString() {
 		return "ReminderObject [id=" + id + ", title=" + title

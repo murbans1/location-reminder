@@ -5,7 +5,6 @@ import java.util.List;
 import pl.mu.R;
 import pl.mu.data.ReminderObject;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +27,10 @@ public class ReminderArrayAdapter extends ArrayAdapter<ReminderObject> {
 		ViewHolder viewHolder = null;
 				
 		if(rowView == null){
-			Log.d("Adapter", "rowView == null");
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
 			
 			rowView = inflater.inflate(R.layout.list_item, null);
 			
-			viewHolder = new ViewHolder();
 			viewHolder = new ViewHolder();
 		    viewHolder.title = (TextView) rowView.findViewById(R.id.textview_item_title);
 			viewHolder.description =(TextView) rowView.findViewById(R.id.textview_item_description);

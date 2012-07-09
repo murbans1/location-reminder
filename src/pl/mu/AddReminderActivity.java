@@ -97,23 +97,21 @@ public class AddReminderActivity extends Activity implements OnClickListener{
 	}
 
 	private ReminderObject prepareReminderObject() {
-		ReminderObject reminderObject = new ReminderObject(-1, titleEt.getText().toString(), datePickerToLong(endDateDp), latTv.getText().toString(), lonTv.getText().toString(), descriptionEt.getText().toString());
+		ReminderObject reminderObject = new ReminderObject(-1, titleEt.getText().toString(), datePickerToLong(endDateDp), latTv.getText().toString(), lonTv.getText().toString(), descriptionEt.getText().toString(), 0);
 		return reminderObject;
 	}
 	
 	private String datePickerToLong(DatePicker dp) {
-		SimpleDateFormat f = new SimpleDateFormat("yyyyMMddHHmmss");
-
 		int year = dp.getYear();
 		int month = dp.getMonth();
 		int day = dp.getDayOfMonth();
-		int hour = 0;
-		int minute = 0;
+		int hour = 23;
+		int minute = 59;
 
 		final Calendar c = Calendar.getInstance();
 		c.set(year, month, day, hour, minute);
 		
-		return f.format(c.getTime());
+		return String.valueOf(c.getTimeInMillis());
 	}
 	
 	private void makeToast(String message) {

@@ -2,6 +2,7 @@ package pl.mu;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -72,14 +73,17 @@ public class LocationReminderActivity extends Activity implements OnClickListene
         Dao<ReminderObject, String> dao = null;
         List<ReminderObject> tempList = new ArrayList<ReminderObject>();
         
+		Date now = new Date();
+		Long nowTimestamp = now.getTime(); 
+        
         reminderList.clear();
         
         try {
-			dao = databaseHelper.getReminderDao();
+			dao = databaseHelper.getReminderDao();			
 			tempList = dao.queryForAll();
-			
-			for(int i = 0; i < tempList.size(); i++) {
-				reminderList.add(tempList.get(i));
+			for(int i = 0; i < tempList.size(); i++) {	
+				if(nowTimestamp < Long.valueOf(tempList.get(i).endDateTimestamp))
+					reminderList.add(tempList.get(i));
 			}
 			
 			Log.d(TAG, "list length " + reminderList.size());
